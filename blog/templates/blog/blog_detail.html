@@ -1,0 +1,22 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ blog.title }}</h2>
+    <p class="text-muted">
+        {{ blog.created_at|date:"d M Y" }} | Просмотров: {{ blog.views_count }}
+    </p>
+    <div class="row">
+        <div class="col-md-6">
+            {% if blog.preview %}
+            <img src="{{ blog.preview.url }}" alt="{{ blog.title }}" class="img-fluid mb-3" style="height: 400px; object-fit: cover;">
+            {% else %}
+            <p>No image available</p>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <p>{{ blog.body }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

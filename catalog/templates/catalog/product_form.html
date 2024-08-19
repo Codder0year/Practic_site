@@ -1,0 +1,52 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<div class="col-12">
+    {% if user.is_authenticated %}
+        <form class="row" method="post" enctype="multipart/form-data">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">Информация о товаре</div>
+                    <div class="card-title">
+                        {% if object %}
+                            Редактировать товар
+                        {% else %}
+                            Добавить товар
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">Информация о версиях</div>
+                    <div class="card-title">Версия</div>
+                    <div class="card-body">
+                        {{ formset.management_form }}
+                        {% for form in formset.forms %}
+                            {{ form.as_p }}
+                            {% if not forloop.last %}
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mt-3">
+                <button type="submit" class="btn btn-primary">
+                    {% if object %}
+                        Сохранить изменения
+                    {% else %}
+                        Сохранить
+                    {% endif %}
+                </button>
+            </div>
+        </form>
+    {% else %}
+        <p>Вы должны войти в систему, чтобы добавить или редактировать товары.</p>
+    {% endif %}
+</div>
+{% endblock %}
