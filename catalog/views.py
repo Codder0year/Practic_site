@@ -1,14 +1,19 @@
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
 from catalog.models import Product, Version
+from catalog.services import get_cached_versions_for_product
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ProductListView(ListView):
     model = Product
     template_name = 'catalog/home.html'
@@ -27,13 +32,13 @@ def contacts(request):
     return render(request, 'catalog/contacts.html', context)
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'catalog/product_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['versions'] = Version.objects.filter(product=self.object)
+        context['versions'] = get_cached_versions_for_product(self.object)
         return context
 
 
