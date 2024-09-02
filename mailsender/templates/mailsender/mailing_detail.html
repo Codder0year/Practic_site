@@ -1,0 +1,24 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">Детали рассылки</div>
+        <div class="card-body">
+            <h5>Start date: {{ object.start_date }}</h5>
+            <p>Frequency: {{ object.get_frequency_display }}</p>
+            <p>Status: {{ object.get_status_display }}</p>
+            <h6>Message:</h6>
+            <p>{{ object.message.subject }}</p>
+            <p>{{ object.message.body }}</p>
+            <h6>Clients:</h6>
+            <ul>
+                {% for client in object.clients.all %}
+                    <li>{{ client.full_name }} ({{ client.email }})</li>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'mailsender:mailing_list' %}" class="btn btn-primary">Назад к списку</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

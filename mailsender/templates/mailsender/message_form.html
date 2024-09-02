@@ -1,0 +1,15 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>{% if object %}Редактировать сообщение{% else %}Добавить сообщение{% endif %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">
+            {% if object %}Сохранить изменения{% else %}Сохранить{% endif %}
+        </button>
+        <a href="{% url 'mailsender:message_list' %}" class="btn btn-secondary">Назад к списку</a>
+    </form>
+</div>
+{% endblock %}

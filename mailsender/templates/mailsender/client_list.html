@@ -1,0 +1,15 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Клиенты</h2>
+    <a href="{% url 'mailsender:client_create' %}" class="btn btn-primary mb-3">Добавить клиента</a>
+    <ul class="list-group">
+        {% for client in clients %}
+            <li class="list-group-item">
+                <a href="{% url 'mailsender:client_detail' client.pk %}">{{ client }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">Список рассылок</div>
+        <div class="card-body">
+            <a href="{% url 'mailsender:mailing_create' %}" class="btn btn-success mb-3">Добавить рассылку</a>
+            <ul class="list-group">
+                {% for mailing in mailings %}
+                    <li class="list-group-item">
+                        <a href="{% url 'mailsender:mailing_detail' mailing.pk %}">{{ mailing }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

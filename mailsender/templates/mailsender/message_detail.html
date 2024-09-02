@@ -1,0 +1,12 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Сообщение: {{ message.subject }}</h2>
+    <p><strong>Тело сообщения:</strong></p>
+    <p>{{ message.body }}</p>
+    <a href="{% url 'mailsender:message_update' message.pk %}" class="btn btn-warning">Редактировать</a>
+    <a href="{% url 'mailsender:message_delete' message.pk %}" class="btn btn-danger">Удалить</a>
+    <a href="{% url 'mailsender:message_list' %}" class="btn btn-secondary">Назад к списку</a>
+</div>
+{% endblock %}

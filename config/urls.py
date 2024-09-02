@@ -8,6 +8,7 @@ urlpatterns = [
     path('', include('catalog.urls', namespace='catalog')),  # Подключаем URL-ы приложения 'catalog'
     path('blog/', include('blog.urls', namespace='blog')),  # Подключаем URL-ы приложения 'blog'
     path('users/', include('users.urls', namespace='users')),  # Подключаем URL-ы приложения 'users'
+    path('mailsender/', include('mailsender.urls', namespace='mailsender')),  # Подключаем URL-ы приложения'mailsender'
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

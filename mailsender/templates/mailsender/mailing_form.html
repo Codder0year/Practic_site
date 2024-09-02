@@ -1,0 +1,64 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<div class="col-12">
+    {% if user.is_authenticated %}
+    <form class="row" method="post">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">Информация о рассылке</div>
+                <div class="card-title">
+                    {% if object %}
+                    Редактировать рассылку
+                    {% else %}
+                    Добавить рассылку
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        {{ form.start_date.label_tag }}
+                        {{ form.start_date }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.frequency.label_tag }}
+                        {{ form.frequency }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.status.label_tag }}
+                        {{ form.status }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.message.label_tag }}
+                        {{ form.message }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.last_mailing_date.label_tag }}
+                        {{ form.last_mailing_date }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.clients.label_tag }}
+                        {{ form.clients }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-primary">
+                {% if object %}
+                Сохранить изменения
+                {% else %}
+                Сохранить
+                {% endif %}
+            </button>
+        </div>
+    </form>
+    {% else %}
+    <p>Вы должны войти в систему, чтобы добавить или редактировать рассылки.</p>
+    {% endif %}
+</div>
+{% endblock %}
