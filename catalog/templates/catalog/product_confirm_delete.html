@@ -1,0 +1,21 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<div class="col-12">
+    {% if user.is_authenticated %}
+        <div class="card">
+            <div class="card-header">Подтверждение удаления</div>
+            <div class="card-body">
+                <p>Вы уверены, что хотите удалить "{{ object.name }}"?</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                    <a href="{% url 'catalog:home' %}" class="btn btn-secondary">Отменить</a>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <p>Вы должны войти в систему, чтобы удалить товары.</p>
+    {% endif %}
+</div>
+{% endblock %}

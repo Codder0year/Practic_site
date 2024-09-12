@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -131,6 +132,16 @@ EMAIL_USE_SSL = True
 EMAIL_HOST_USER = 'SkyStoreClub@yandex.ru'
 EMAIL_HOST_PASSWORD = 'cnkhzgwzudvzgwoz'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+CACHE_ENABLED = os.getenv("CACHE_ENABLED") == "True"
+
+
+if 'test' in sys.argv:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        }
+    }
 
 CACHE_ENABLED = os.getenv("CACHE_ENABLED") == "True"
 

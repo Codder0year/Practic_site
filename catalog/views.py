@@ -5,7 +5,7 @@ from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
@@ -52,7 +52,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         product = form.save(commit=False)  # Не сохраняем сразу в базу
         product.owner = user  # Присваиваем владельца
         product.save()  # Теперь сохраняем продукт с владельцем
-        return super().form_valid(form) # Возвращаем форму
+        return super().form_valid(form)  # Возвращаем форму
 
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
@@ -87,10 +87,16 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         if user == self.object.owner:
             return ProductForm
         elif (
-            user.has_perm('catalog.can_unpublish_product') and
-            user.has_perm('catalog.can_edit_any_product') and
-            user.has_perm('catalog.can_change_category')
+                user.has_perm('catalog.can_unpublish_product') and
+                user.has_perm('catalog.can_edit_any_product') and
+                user.has_perm('catalog.can_change_category')
         ):
             return ProductModeratorForm
         else:
             raise PermissionDenied
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('catalog:home')
+    template_name = 'catalog/product_confirm_delete.html'
